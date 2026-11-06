@@ -1,8 +1,12 @@
+"use strict";
+
 const $ = id => document.getElementById(id);
 
 let selectedGuild = null;
 let channelList = [];
 let currentConfig = {};
+
+const DEFAULT_ICON = "https://cdn.discordapp.com/embed/avatars/0.png";
 
 const events = [
   ["Members", [
@@ -12,7 +16,6 @@ const events = [
     ["nicknameUpdate", "Nickname Update"],
     ["memberRoles", "Member Roles Updated"]
   ]],
-
   ["Messages", [
     ["messageDelete", "Message Delete"],
     ["messageEdit", "Message Edit"],
@@ -21,7 +24,6 @@ const events = [
     ["reactionAdd", "Reaction Added"],
     ["reactionRemove", "Reaction Removed"]
   ]],
-
   ["Voice", [
     ["voiceJoin", "Voice Join"],
     ["voiceLeave", "Voice Leave"],
@@ -29,31 +31,26 @@ const events = [
     ["voiceMute", "Voice Mute"],
     ["voiceDeafen", "Voice Deafen"]
   ]],
-
   ["Server Actions", [
     ["inviteCreate", "Invite Created"],
     ["inviteDelete", "Invite Deleted"],
     ["emojiUpdate", "Emoji Updated"],
     ["webhookUpdate", "Webhook Updated"]
   ]],
-
   ["Channels", [
     ["channelCreate", "Channel Created"],
     ["channelDelete", "Channel Deleted"],
     ["channelUpdate", "Channel Updated"],
     ["channelPerms", "Channel Permissions Updated"]
   ]],
-
   ["Server Events", [
     ["serverUpdate", "Server Updated"]
   ]],
-
   ["Roles", [
     ["roleCreate", "Role Created"],
     ["roleDelete", "Role Deleted"],
     ["roleUpdate", "Role Updated"]
   ]],
-
   ["Moderation", [
     ["ban", "Member Banned"],
     ["unban", "Member Unbanned"],
@@ -65,6 +62,7 @@ const events = [
 async function api(url, options = {}) {
   const response = await fetch(url, {
     ...options,
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
       ...(options.headers || {})
@@ -85,43 +83,35 @@ function notice(message, bad = false) {
   $("notice").className = "notice " + (bad ? "error" : "");
 }
 
-/* DISCORD ACCOUNT */
+/*
+ * Discord server icon:
+ * - GIF for animated icons.
+ * - WebP for static icons.
+ * - Default Discord icon if no icon exists.
+ */
+function guildIconURL(guild) {
+  if (!guild.icon) return DEFAULT_ICON;
+
+  const extension = guild.icon.startsWith("a_") ? "gif" : "webp";
+
+  return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.${extension}?size=128`;
+}
+
+function setImageFallback(img) {
+  img.onerror = function () {
+    this.onerror = null;
+    this.src = DEFAULT_ICON;
+  };
+}
 
 async function loadMe() {
   const data = await api("/api/me");
 
-  const user = data.user;
+  $("username").textContent = data.user.username;
 
-  const avatar = user.avatar
-    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${user.avatar.startsWith("a_") ? "gif" : "png"}?size=256`
-    : "https://cdn.discordapp.com/embed/avatars/0.png";
-
-  const username = user.global_name || user.username;
-
-  $("username").textContent = username;
-  $("profile-username").textContent = username;
-  $("menu-username").textContent = username;
-  $("discord-id").textContent = user.id;
-
-  $("avatar").src = avatar;
-  $("profile-avatar").src = avatar;
-  $("menu-avatar").src = avatar;
+  $("avatar").src = data.user.avatar || DEFAULT_ICON;
+  setImageFallback($("avatar"));
 }
-
-/* ACCOUNT DROPDOWN */
-
-$("account-button").addEventListener("click", () => {
-  const dropdown = $("account-dropdown");
-  dropdown.hidden = !dropdown.hidden;
-});
-
-document.addEventListener("click", event => {
-  if (!$("account-menu").contains(event.target)) {
-    $("account-dropdown").hidden = true;
-  }
-});
-
-/* DISCORD SERVERS */
 
 async function loadGuilds() {
   $("guilds").innerHTML =
@@ -130,7 +120,7 @@ async function loadGuilds() {
   try {
     const data = await api("/api/guilds");
 
-    if (!data.guilds.length) {
+    if (!data.guilds || data.guilds.length === 0) {
       $("guilds").innerHTML =
         '<div class="panel">No manageable servers were found.</div>';
       return;
@@ -143,12 +133,13 @@ async function loadGuilds() {
       card.className = "guild-card";
 
       const img = document.createElement("img");
+      img.className = "guild-icon";
+      img.alt = guild.name + " icon";
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      img.src = guild.icon || DEFAULT_ICON;
 
-      img.src = guild.icon
-        ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
-        : "https://cdn.discordapp.com/embed/avatars/0.png";
-
-      img.alt = "";
+      setImageFallback(img);
 
       const info = document.createElement("div");
 
@@ -156,30 +147,30 @@ async function loadGuilds() {
       title.textContent = guild.name;
 
       const status = document.createElement("p");
-
       status.textContent = guild.botAdded
         ? "VENOM LOG is in this server"
         : "Bot not added yet";
 
       const button = document.createElement("button");
 
-      button.className = guild.botAdded
-        ? "primary"
-        : "secondary";
+      button.className = guild.botAdded ? "primary" : "secondary";
 
       button.textContent = guild.botAdded
-        ? "MANAGE SERVER"
-        : "ADD BOT";
+        ? "إدارة الخادم"
+        : "إضافة بوت";
 
       if (guild.botAdded) {
         button.addEventListener("click", () => selectGuild(guild));
       } else {
         button.addEventListener("click", () => {
-          window.open(
-            "https://discord.com/oauth2/authorize?client_id=1565783855846269169&permissions=84992&integration_type=0&scope=applications.commands%20bot",
-            "_blank",
-            "noopener"
-          );
+          const invite =
+            "https://discord.com/oauth2/authorize" +
+            "?client_id=1565783855846269169" +
+            "&permissions=84992" +
+            "&integration_type=0" +
+            "&scope=applications.commands%20bot";
+
+          window.open(invite, "_blank", "noopener");
         });
       }
 
@@ -190,12 +181,17 @@ async function loadGuilds() {
     });
 
   } catch (error) {
-    $("guilds").textContent = error.message;
+    $("guilds").innerHTML = "";
+
+    const box = document.createElement("div");
+    box.className = "panel";
+    box.textContent = error.message;
+
+    $("guilds").append(box);
+
     notice(error.message, true);
   }
 }
-
-/* SELECT SERVER */
 
 async function selectGuild(guild) {
   selectedGuild = guild;
@@ -203,8 +199,8 @@ async function selectGuild(guild) {
   $("settings").hidden = false;
   $("selected-name").textContent = guild.name;
 
-  $("event-settings").innerHTML =
-    "<p>Loading channels and settings...</p>";
+  $("event-settings").textContent =
+    "Loading channels and settings...";
 
   try {
     const [channels, settings] = await Promise.all([
@@ -230,8 +226,6 @@ async function selectGuild(guild) {
   }
 }
 
-/* RENDER LOG SETTINGS */
-
 function renderEvents() {
   const root = $("event-settings");
 
@@ -250,17 +244,17 @@ function renderEvents() {
       const row = document.createElement("label");
       row.className = "event-row";
 
-      const span = document.createElement("span");
-      span.textContent = label;
+      const name = document.createElement("span");
+      name.textContent = label;
 
       const select = document.createElement("select");
       select.dataset.event = key;
 
-      const none = document.createElement("option");
-      none.value = "";
-      none.textContent = "Disabled";
+      const disabled = document.createElement("option");
+      disabled.value = "";
+      disabled.textContent = "Disabled";
 
-      select.append(none);
+      select.append(disabled);
 
       channelList.forEach(channel => {
         const option = document.createElement("option");
@@ -274,18 +268,16 @@ function renderEvents() {
       const saved = currentConfig[key];
 
       select.value = Array.isArray(saved)
-        ? saved[0]
-        : (saved || "");
+        ? saved[0] || ""
+        : saved || "";
 
-      row.append(span, select);
+      row.append(name, select);
       section.append(row);
     });
 
     root.append(section);
   });
 }
-
-/* SAVE SETTINGS */
 
 async function save() {
   if (!selectedGuild) return;
@@ -311,7 +303,7 @@ async function save() {
 
     $("save-status").textContent = "Saved successfully.";
 
-    notice("Settings saved. VENOM LOG will use them.");
+    notice("Settings saved.");
 
   } catch (error) {
     $("save-status").textContent = "Save failed.";
@@ -322,12 +314,8 @@ async function save() {
   }
 }
 
-/* BUTTONS */
-
 $("refresh").addEventListener("click", loadGuilds);
 $("save").addEventListener("click", save);
-
-/* START */
 
 loadMe()
   .then(loadGuilds)
