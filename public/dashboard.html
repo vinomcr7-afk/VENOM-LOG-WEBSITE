@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VENOM LOG | Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080808;color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ padding:22px;text-align:center;
+ border-bottom:1px solid #292929;
+ color:#ed092b;font-size:27px;font-weight:bold;
+}
+main{max-width:850px;margin:40px auto;padding:20px}
+.card{
+ background:#151515;border:1px solid #333;
+ border-radius:15px;padding:25px;margin-bottom:20px;
+}
+h2{color:#ed092b}
+button{
+ background:#ed092b;color:white;border:0;
+ padding:14px 25px;border-radius:9px;
+ font-size:16px;font-weight:bold;cursor:pointer;
+}
+button:hover{background:#b90020}
+.status{color:#19d66b}
+footer{text-align:center;color:#777;padding:30px}
+</style>
+</head>
+<body>
+
+<header>🕷 VENOM LOG</header>
+
+<main>
+<div class="card">
+<h2>لوحة التحكم</h2>
+<p>مرحباً بك في لوحة إدارة VENOM LOG.</p>
+<p id="username">جارٍ التحقق من حسابك...</p>
+<p class="status">● النظام متصل</p>
+</div>
+
+<div class="card">
+<h2>إدارة السجلات</h2>
+<p>ستتمكن هنا من إعداد قنوات تسجيل الأحداث.</p>
+<p>قريباً: إعدادات Logs وربطها بالبوت.</p>
+</div>
+
+<div class="card">
+<h2>حالة البوت</h2>
+<p>VENOM LOG — Discord Bot</p>
+<a href="https://discord.gg/uNzKRH95g">
+<button>الانضمام إلى السيرفر</button>
+</a>
+</div>
+
+<button onclick="logout()">تسجيل الخروج</button>
+</main>
+
+<footer>VENOM LOG © 2026</footer>
+
+<script>
+fetch("/api/me")
+.then(async response=>{
+ if(!response.ok){
+  location.href="/";
+  return null;
+ }
+ return response.json();
+})
+.then(data=>{
+ if(data && data.loggedIn){
+  document.getElementById("username").textContent=
+  "مرحباً، "+data.user.username;
+ }
+})
+.catch(()=>location.href="/");
+
+function logout(){
+ fetch("/auth/logout",{method:"POST"})
+ .then(()=>location.href="/");
+}
+</script>
+
+</body>
+</html>
