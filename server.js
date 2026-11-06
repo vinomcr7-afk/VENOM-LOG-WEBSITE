@@ -9,12 +9,6 @@ const CLIENT_ID = process.env.DISCORD_CLIENT_ID || "1565783855846269169";
 const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
 const REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
 
-// ضع Discord User IDs للموظفين في Render
-const STAFF_USER_IDS = (process.env.STAFF_USER_IDS || "")
-  .split(",")
-  .map(id => id.trim())
-  .filter(Boolean);
-
 app.set("trust proxy", 1);
 
 app.use(session({
@@ -32,10 +26,6 @@ app.use(session({
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-
-function isStaff(userId) {
-  return STAFF_USER_IDS.includes(userId);
-}
 
 app.get("/auth/discord", (req, res) => {
   if (!CLIENT_SECRET || !REDIRECT_URI) {
@@ -140,7 +130,7 @@ app.get("/api/me", (req, res) => {
       avatar: user.avatar
         ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
         : null,
-      staff: isStaff(user.id)
+      staff: true
     }
   });
 });
