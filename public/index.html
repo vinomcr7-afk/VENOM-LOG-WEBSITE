@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>VENOM LOG | Discord Bot</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#080808;
+  color:white;
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+header{
+  height:85px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 8%;
+  border-bottom:1px solid #242424;
+}
+.logo{
+  color:#e50920;
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+nav a{
+  color:#bbb;
+  text-decoration:none;
+  margin-left:25px;
+  font-size:14px;
+}
+nav a:hover{color:#ff1834}
+.hero{
+  min-height:80vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:60px 20px;
+  background:
+  radial-gradient(ellipse at center,#3b080d 0%,#140609 35%,#080808 75%);
+}
+.content{max-width:850px}
+.symbol{
+  font-size:100px;
+  color:#e50920;
+  text-shadow:0 0 20px #ff001f,0 0 60px #9d0015;
+  margin-bottom:15px;
+}
+h1{
+  font-size:clamp(45px,10vw,85px);
+  font-weight:1000;
+  letter-spacing:5px;
+  text-shadow:0 0 25px #a90019;
+}
+h1 span{color:#e50920}
+.subtitle{
+  color:#aaa;
+  font-size:18px;
+  margin:20px auto 35px;
+  line-height:1.7;
+}
+.buttons{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:15px;
+}
+.btn{
+  display:inline-block;
+  padding:16px 28px;
+  border-radius:7px;
+  text-decoration:none;
+  font-weight:bold;
+  transition:.25s;
+}
+.primary{
+  background:#e50920;
+  color:white;
+  box-shadow:0 0 20px #e5092055;
+}
+.secondary{
+  border:1px solid #e50920;
+  color:white;
+}
+.btn:hover{transform:translateY(-4px);filter:brightness(1.2)}
+section.features{
+  padding:65px 8%;
+  text-align:center;
+}
+.features h2{
+  font-size:32px;
+  margin-bottom:35px;
+}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.card{
+  background:#111;
+  border:1px solid #292929;
+  border-radius:12px;
+  padding:30px 20px;
+}
+.card h3{color:#ff263e;margin-bottom:12px}
+.card p{color:#999;line-height:1.6}
+.login{
+  text-align:center;
+  padding:55px 20px;
+  background:#100709;
+}
+.login h2{margin-bottom:20px}
+footer{
+  padding:25px;
+  text-align:center;
+  color:#666;
+  border-top:1px solid #222;
+}
+@media(max-width:600px){
+  header{padding:0 5%}
+  nav a{margin-left:10px;font-size:12px}
+  .logo{font-size:21px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">VENOM LOG</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="/auth/discord">Login</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="content">
+    <div class="symbol">☠</div>
+    <h1>VENOM <span>LOG</span></h1>
+    <p class="subtitle">
+      The ultimate Discord logging experience.<br>
+      Powerful protection. Complete server activity tracking.
+    </p>
+
+    <div class="buttons">
+      <a class="btn primary"
+      href="https://discord.com/oauth2/authorize?client_id=1565783855846269169&permissions=84992&integration_type=0&scope=applications.commands+bot">
+      ADD TO DISCORD
+      </a>
+
+      <a class="btn secondary"
+      href="https://discord.gg/uNzKRH95g">
+      JOIN OUR SERVER
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <h2>POWERFUL FEATURES</h2>
+
+  <div class="cards">
+    <div class="card">
+      <h3>SERVER LOGS</h3>
+      <p>Keep track of important server events and activities.</p>
+    </div>
+
+    <div class="card">
+      <h3>SECURITY</h3>
+      <p>Monitor server activity and stay informed.</p>
+    </div>
+
+    <div class="card">
+      <h3>DASHBOARD</h3>
+      <p>Sign in with Discord to access your account.</p>
+    </div>
+  </div>
+</section>
+
+<section class="login">
+  <h2>CONTROL YOUR EXPERIENCE</h2>
+  <a class="btn primary" href="/auth/discord">
+    LOGIN WITH DISCORD
+  </a>
+</section>
+</main>
+
+<footer>
+  © 2026 VENOM LOG — All Rights Reserved.
+</footer>
+
+</body>
+</html>
