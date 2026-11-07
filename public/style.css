@@ -1,7 +1,3 @@
-/* =====================================
-   VENOM LOG — MAIN WEBSITE
-===================================== */
-
 :root {
   --red: #ed1538;
   --bg: #080608;
@@ -26,6 +22,10 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button, select {
+  font: inherit;
 }
 
 .glow {
@@ -146,42 +146,6 @@ h2 em {
   background: transparent;
 }
 
-.copy label {
-  font-size: 9px;
-  color: #8d838b;
-  letter-spacing: 2px;
-}
-
-.art {
-  position: relative;
-  display: grid;
-  place-items: center;
-}
-
-.art svg {
-  width: 100%;
-  max-width: 490px;
-  position: relative;
-  filter: drop-shadow(0 20px 35px #a0003044);
-  animation: float 5s ease-in-out infinite;
-}
-
-.halo {
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  background: #b0002b;
-  filter: blur(100px);
-  opacity: .3;
-  border-radius: 50%;
-}
-
-.art span {
-  font-size: 9px;
-  letter-spacing: 4px;
-  color: #9b9098;
-}
-
 .features {
   padding: 90px 8%;
   background: #100b10;
@@ -247,10 +211,6 @@ footer {
   letter-spacing: 2px;
 }
 
-/* =====================================
-   VENOM LOG — DASHBOARD
-===================================== */
-
 .dashboard-page {
   background: #080608;
 }
@@ -266,98 +226,24 @@ footer {
   font-size: clamp(40px, 6vw, 70px);
 }
 
-.dash-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 25px;
-}
-
-.dash-title h1 {
-  font-size: clamp(38px, 6vw, 68px);
-  margin: 12px 0;
-}
-
-.dash-title p,
-.settings-head p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.venom-mark {
-  width: 108px;
-  height: 108px;
-  border: 2px solid #ed1538;
-  border-radius: 28px;
-  display: grid;
-  place-items: center;
-  color: #ed1538;
-  font-size: 64px;
-  font-weight: 1000;
-  text-shadow: 0 0 25px #ed1538;
-  transform: skew(-8deg);
-  box-shadow: 0 0 45px #ed153833;
-}
-
-.profile-panel {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 28px 0 45px;
-}
-
-.profile-panel form {
-  margin-left: auto;
-}
-
-.avatar {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--red);
-}
-
-.profile-panel h2 {
-  margin: 0 0 8px;
-}
-
-.manager-badge,
-.live-pill {
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  color: #ff657d;
-  border: 1px solid #762436;
-  padding: 7px 9px;
-}
-
-.section-heading,
-.settings-head,
-.save-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.section-heading h2 {
-  margin: 10px 0 18px;
-}
-
-.guild-grid {
+.guild-grid,
+.event-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 15px;
+}
+
+.guild-card,
+.event-group {
+  padding: 18px;
+  background: #171017;
+  border: 1px solid #ffffff18;
 }
 
 .guild-card {
   display: flex;
   align-items: center;
   gap: 13px;
-  padding: 18px;
-  background: #171017;
-  border: 1px solid #ffffff18;
   min-width: 0;
 }
 
@@ -375,48 +261,26 @@ footer {
 
 .guild-card h3 {
   font-size: 13px;
-  margin: 0 0 6px;
   overflow-wrap: anywhere;
 }
 
 .guild-card p {
   font-size: 10px;
   color: var(--muted);
-  margin: 0;
 }
 
-.guild-card button {
-  padding: 12px 13px;
-  white-space: nowrap;
-}
-
-.settings-panel {
-  margin-top: 34px;
-}
-
-.settings-head h2 {
-  margin: 8px 0;
-}
-
-.event-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 15px;
-  margin-top: 25px;
-}
-
-.event-group {
-  border: 1px solid #ffffff18;
-  background: #100b10;
-  padding: 15px;
-  min-width: 0;
+.guild-card button,
+.save-row button {
+  padding: 12px 16px;
+  background: var(--red);
+  color: white;
+  border: 0;
+  cursor: pointer;
 }
 
 .event-group h3 {
   font-size: 12px;
-  letter-spacing: 1.5px;
   color: #ff526d;
-  margin: 0 0 12px;
 }
 
 .event-row {
@@ -432,25 +296,20 @@ footer {
 .event-row select {
   max-width: 52%;
   background: #080608;
-  color: #fff;
+  color: white;
   border: 1px solid #59303a;
   padding: 9px;
   min-width: 0;
 }
 
 .save-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-top: 20px;
   padding-top: 18px;
   border-top: 1px solid #ffffff18;
-}
-
-.save-row span {
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.save-row button:disabled {
-  opacity: .5;
 }
 
 .notice {
@@ -463,45 +322,9 @@ footer {
   color: #ff8194;
 }
 
-.warning {
-  border-left: 3px solid var(--red);
-  padding: 12px;
-  background: #ed153812;
-}
-
-/* =====================================
-   DISCORD ACCOUNT MENU
-===================================== */
-
 .account-menu {
   position: relative;
   z-index: 100;
-}
-
-.account-button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #171017;
-  color: white;
-  border: 1px solid #ffffff18;
-  padding: 8px 12px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.top-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #ed1538;
-}
-
-.arrow {
-  color: #ed1538;
-  font-size: 18px;
 }
 
 .account-dropdown {
@@ -521,73 +344,6 @@ footer {
   display: none;
 }
 
-.dropdown-profile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-}
-
-.dropdown-profile img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid #ed1538;
-  object-fit: cover;
-}
-
-.dropdown-profile strong {
-  display: block;
-  font-size: 13px;
-  overflow-wrap: anywhere;
-}
-
-.dropdown-profile small {
-  display: block;
-  color: #aaa1a8;
-  font-size: 10px;
-  margin-top: 6px;
-  letter-spacing: 0;
-}
-
-.dropdown-divider {
-  height: 1px;
-  background: #ffffff18;
-  margin: 12px 0;
-}
-
-.account-dropdown a,
-.logout-button {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  color: #eee;
-  background: transparent;
-  border: 0;
-  text-align: left;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.account-dropdown a:hover,
-.logout-button:hover {
-  background: #ed153822;
-  color: #ff526d;
-}
-
-.account-dropdown form {
-  margin: 0;
-}
-
-.logout-button {
-  color: #ff526d;
-}
-
-/* =====================================
-   ANIMATIONS & MOBILE
-===================================== */
-
 @keyframes float {
   50% {
     transform: translateY(-12px);
@@ -603,11 +359,6 @@ footer {
     gap: 12px;
   }
 
-  header nav a:first-child,
-  header nav a:nth-child(2) {
-    display: none;
-  }
-
   .hero {
     grid-template-columns: 1fr;
     text-align: center;
@@ -618,11 +369,9 @@ footer {
     justify-content: center;
   }
 
-  .art svg {
-    max-width: 340px;
-  }
-
-  .cards {
+  .cards,
+  .guild-grid,
+  .event-grid {
     grid-template-columns: 1fr;
   }
 
@@ -635,44 +384,9 @@ footer {
     gap: 15px;
     flex-wrap: wrap;
   }
-}
-
-@media (max-width: 700px) {
-  .dash {
-    margin: 35px auto;
-  }
-
-  .venom-mark {
-    width: 75px;
-    height: 75px;
-    font-size: 45px;
-  }
-
-  .guild-grid,
-  .event-grid {
-    grid-template-columns: 1fr;
-  }
 
   .guild-card {
     flex-wrap: wrap;
-  }
-
-  .guild-card button {
-    margin-left: auto;
-  }
-
-  .profile-panel {
-    flex-wrap: wrap;
-  }
-
-  .profile-panel form {
-    width: 100%;
-    margin: 8px 0 0;
-  }
-
-  .settings-head {
-    align-items: flex-start;
-    flex-direction: column;
   }
 
   .save-row {
@@ -682,28 +396,5 @@ footer {
 
   .save-row button {
     width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  header {
-    padding: 0 15px;
-  }
-
-  .account-button {
-    gap: 6px;
-    padding: 6px 9px;
-  }
-
-  .account-button #username {
-    max-width: 90px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .account-dropdown {
-    right: 0;
-    width: 245px;
   }
 }
